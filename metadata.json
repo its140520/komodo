@@ -1,30 +1,6 @@
-const { Connection, PublicKey, Keypair } = require('@solana/web3.js');
-const { Metaplex, keypairIdentity } = require('@metaplex-foundation/js');
-const fs = require('fs');
-
-async function updateMetadata() {
-    const connection = new Connection('https://api.devnet.solana.com', 'confirmed');
-    
-    const secretKey = JSON.parse(fs.readFileSync(
-        require('os').homedir() + '/.config/solana/id.json'
-    ));
-    const wallet = Keypair.fromSecretKey(new Uint8Array(secretKey));
-    
-    const metaplex = Metaplex.make(connection)
-        .use(keypairIdentity(wallet));
-    
-    const mintAddress = new PublicKey('8YnQ4wHwzjcLbyZmPyfZfyWhHkCBmuBid33ZyHndHSZ5');
-    
-    const { nft } = await metaplex.nfts().create({
-        uri: 'https://raw.githubusercontent.com/its140520/komodo/main/metadata.json',
-        name: "Komodo",
-        symbol: "KMDO",
-        sellerFeeBasisPoints: 0,
-        mintAddress: mintAddress,
-        updateAuthority: wallet,
-    });
-
-    console.log('Metadata updated:', nft);
+{
+    "name": "Komodo Coin",
+    "symbol": "MODO",
+    "description": "Meme Coin Insppired by Komodo, An Animal Native to Indonesia",
+    "image": "https://i.imgur.com/IJbt4xI.png"
 }
-
-updateMetadata().catch(console.error);
